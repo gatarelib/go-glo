@@ -42,7 +42,7 @@ func (a *Glo) CreateColumn(
 	}
 
 	c = &Column{}
-	err = json.Unmarshal(resp, c)
+	err = json.Unmarshal(resp, &c)
 
 	return
 }
@@ -70,7 +70,7 @@ func (a *Glo) EditColumn(
 	}
 
 	c = &Column{}
-	err = json.Unmarshal(resp, c)
+	err = json.Unmarshal(resp, &c)
 
 	return
 }

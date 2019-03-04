@@ -13,7 +13,7 @@ import (
 type Card struct {
 	ID                 string          `json:"id"`
 	Name               string          `json:"name"`
-	position           int             `json:"position"`
+	Position           int             `json:"position"`
 	Description        *Description    `json:"Description"`
 	BoardID            string          `json:"board_id"`
 	ColumnID           string          `json:"column_id"`
@@ -143,7 +143,7 @@ func (a *Glo) CreateCard(
 	}
 
 	card = &Card{}
-	err = json.Unmarshal(resp, card)
+	err = json.Unmarshal(resp, &card)
 
 	return
 }
@@ -166,7 +166,7 @@ func (a *Glo) EditCard(
 	}
 
 	card = &Card{}
-	err = json.Unmarshal(resp, card)
+	err = json.Unmarshal(resp, &card)
 
 	return
 }
@@ -190,7 +190,7 @@ func (a *Glo) GetCard(
 	}
 
 	card = &Card{}
-	err = json.Unmarshal(resp, card)
+	err = json.Unmarshal(resp, &card)
 
 	return
 }

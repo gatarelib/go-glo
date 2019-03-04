@@ -1,5 +1,11 @@
 # go-glo
 
+[![GoDoc](https://godoc.org/github.com/jackmcguire1/go-twitch-ext?status.svg)](https://godoc.org/github.com/jackmcguire1/go-glo)
+
+[![Build Status](https://travis-ci.org/jackmcguire1/go-glo.svg?branch=master)](https://travis-ci.org/jackmcguire1/go-glo)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jackmcguire1/go-glo)](https://goreportcard.com/report/github.com/jackmcguire1/go-glo)
+
+
 ![GIT KRAKEN](https://cdn.worldvectorlogo.com/logos/gitkraken.svg)
 
 [git]:      https://git-scm.com/

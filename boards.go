@@ -97,17 +97,17 @@ func (a *Glo) GetBoards(
 
 // GetBoard Get a Board by ID
 // https://gloapi.gitkraken.com/v1/docs/#/Boards/get_boards__board_id_
-func (a *Glo) GetBoard(boardID string) (board *Board) {
+func (a *Glo) GetBoard(boardID string) (board *Board, err error) {
 	addr := fmt.Sprintf("%s/boards/%s", a.BaseURI, boardID)
 
 	q := utils.AddFields(boardFields)
 
-	board = &Board{}
 	resp, _, err := a.jsonReq(http.MethodGet, addr, nil, q)
 	if err != nil {
 		return
 	}
 
+	board = &Board{}
 	err = json.Unmarshal(resp, &board)
 
 	return

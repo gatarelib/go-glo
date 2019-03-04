@@ -14,7 +14,7 @@ type Label struct {
 	Name        string       `json:"name"`
 	Color       Color        `json:"color"`
 	CreatedDate string       `json:"created_date"`
-	CreatedBy   *PartialUser `json:"created_date"`
+	CreatedBy   *PartialUser `json:"created_by"`
 }
 
 // PartialLabel minmized Label data

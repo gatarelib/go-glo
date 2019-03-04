@@ -16,6 +16,3 @@ install:
 
 script:
   golangci-lint run
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)

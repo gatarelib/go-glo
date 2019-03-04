@@ -2,6 +2,8 @@ package utils
 
 import "net/url"
 
+// AddFields used to help construct query fields
+// for API calls.
 func AddFields(fields []string) url.Values {
 	q := url.Values{}
 

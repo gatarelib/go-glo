@@ -34,7 +34,7 @@ func (a *Glo) GetUser() (user *User, err error) {
 	}
 
 	user = &User{}
-	err = json.Unmarshal(data, user)
+	err = json.Unmarshal(data, &user)
 
 	return
 }

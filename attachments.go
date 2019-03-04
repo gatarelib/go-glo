@@ -84,7 +84,7 @@ func (a *Glo) GetAttachments(
 	}
 
 	attachmentsResp = &AttachmentsResp{}
-	err = json.Unmarshal(resp, attachmentsResp.Attachments)
+	err = json.Unmarshal(resp, &attachmentsResp.Attachments)
 	if err != nil {
 		return
 	}

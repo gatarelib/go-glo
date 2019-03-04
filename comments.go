@@ -72,7 +72,7 @@ func (a *Glo) GetComments(
 	}
 
 	commentsResp = &CommentsResp{}
-	err = json.Unmarshal(resp, commentsResp)
+	err = json.Unmarshal(resp, &commentsResp)
 	if err != nil {
 		return
 	}
@@ -104,7 +104,7 @@ func (a *Glo) CreateComment(
 	}
 
 	comment = &Comment{}
-	err = json.Unmarshal(resp, comment)
+	err = json.Unmarshal(resp, &comment)
 	return
 }
 
@@ -127,7 +127,7 @@ func (a *Glo) EditComment(
 	}
 
 	comment = &Comment{}
-	err = json.Unmarshal(resp, comment)
+	err = json.Unmarshal(resp, &comment)
 
 	return
 }
