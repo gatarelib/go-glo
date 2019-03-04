@@ -10,11 +10,16 @@ import (
 	"github.com/jackmcguire1/go-glo/internal/utils"
 )
 
+// BaseAttachment contains generic attachment details
+type BaseAttachment struct {
+	ID       string `json:"id"`
+	Filename string `json:"filename"`
+	MimeType string `json:"mime_type"`
+}
+
 // Attachment contains the information related to an attachment.
 type Attachment struct {
-	ID          string       `json:"id"`
-	Filename    string       `json:"filename"`
-	MimeType    string       `json:"mime_type"`
+	BaseAttachment
 	CreatedDate string       `json:"created_date"`
 	CreatedBy   *PartialUser `json:"created_by"`
 }
@@ -26,34 +31,25 @@ type AttachmentsResp struct {
 	Attachments []*Attachment `json:"attachments"`
 }
 
+// NewAttachment contains the information related to a new attachment.
+type NewAttachment struct {
+	BaseAttachment
+	URL string `json:"url"`
+}
+
+// GeneratedAttachment contains the information related
+// to a new attachment and the comment generated to prevent
+// the new attachment from having a TTL
+type GeneratedAttachment struct {
+	Comment    *Comment       `json:"comment"`
+	Attachment *NewAttachment `json:"attachment"`
+}
+
 var attachmentFields = []string{
 	"created_date",
 	"created_by",
 	"filename",
 	"mime_type",
-}
-
-// CreateAttachment After making this call, you must make another call to either
-// update the card's description or add/update one of the card's comments
-// and include the attachment url (in markdown format) in the text.
-// FORMAT: [ANY_TEXT](ATTACHMENT_URL).
-//
-// If the attachment url is not in the card description or
-// one of its comments within 1 hour of the attachment being created,
-// it will be deleted.
-// https://gloapi.gitkraken.com/v1/docs/#/Attachments/post_boards__board_id__cards__card_id__attachments
-func (a *Glo) CreateAttachment(
-	boardID string,
-	cardID string,
-	r io.Reader,
-) (
-	err error,
-) {
-	addr := fmt.Sprintf("%s/boards/%s/cards/%s/attachments", a.BaseURI, boardID, cardID)
-
-	_, _, err = a.multiPartReq(http.MethodPost, addr, r, nil)
-
-	return
 }
 
 // GetAttachments get attachments related to a card
@@ -94,6 +90,62 @@ func (a *Glo) GetAttachments(
 		return
 	}
 	attachmentsResp.HasMore = hasMore
+
+	return
+}
+
+// CreateAttachment Will create an attachment and create
+// a new comment on the provided card so that the attachment
+// does not have a Time To Live.
+//
+//https://gloapi.gitkraken.com/v1/docs/#/Attachments/post_boards__board_id__cards__card_id__attachments
+func (a *Glo) CreateAttachment(
+	boardID string,
+	cardID string,
+	description string,
+	r io.Reader,
+) (
+	generated *GeneratedAttachment,
+	err error,
+) {
+	attachment, err := a.uploadAttachment(boardID, cardID, r)
+	if err != nil {
+		return
+	}
+
+	commentInput := &CommentInput{
+		Text: fmt.Sprintf("[%s](%s)", description, attachment.URL),
+	}
+	comment, err := a.CreateComment(boardID, cardID, commentInput)
+	if err != nil {
+		return
+	}
+
+	generated = &GeneratedAttachment{
+		Comment:    comment,
+		Attachment: attachment,
+	}
+
+	return
+}
+
+func (a *Glo) uploadAttachment(
+	boardID string,
+	cardID string,
+	r io.Reader,
+) (
+	attachment *NewAttachment,
+	err error,
+) {
+	addr := fmt.Sprintf("%s/boards/%s/cards/%s/attachments", a.BaseURI, boardID, cardID)
+
+	resp, _, err := a.multiPartReq(http.MethodPost, addr, r, nil)
+	if err != nil {
+		return
+	}
+
+	attachment = &NewAttachment{}
+	err = json.Unmarshal(resp, &attachment)
 
 	return
 }

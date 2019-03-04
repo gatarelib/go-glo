@@ -1,6 +1,6 @@
 package glo
 
-// Color infomration related to a Label's colour
+// Color information related to a Label's colour
 type Color struct {
 	R int     `json:"r"`
 	G int     `json:"g"`
@@ -8,7 +8,7 @@ type Color struct {
 	A float64 `json:"a"`
 }
 
-// Label information related to a Label
+// Label contains information related ot a label
 type Label struct {
 	ID          string       `json:"id"`
 	Name        string       `json:"name"`
@@ -17,13 +17,13 @@ type Label struct {
 	CreatedBy   *PartialUser `json:"created_by"`
 }
 
-// PartialLabel minmized Label data
+// PartialLabel minimized Label data
 type PartialLabel struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-// PartialUser minmized User information
+// PartialUser minimized User information
 type PartialUser struct {
 	ID string `json:"id"`
 }

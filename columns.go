@@ -31,7 +31,7 @@ func (a *Glo) CreateColumn(
 	boardID string,
 	columnInput *ColumnInput,
 ) (
-	c *Column,
+	col *Column,
 	err error,
 ) {
 	addr := fmt.Sprintf("%s/boards/%s/columns", a.BaseURI, boardID)
@@ -41,8 +41,8 @@ func (a *Glo) CreateColumn(
 		return
 	}
 
-	c = &Column{}
-	err = json.Unmarshal(resp, &c)
+	col = &Column{}
+	err = json.Unmarshal(resp, &col)
 
 	return
 }
@@ -52,25 +52,20 @@ func (a *Glo) CreateColumn(
 func (a *Glo) EditColumn(
 	boardID,
 	columnID string,
-	name string,
-	position int,
+	columnInput *ColumnInput,
 ) (
-	c *Column,
+	col *Column,
 	err error,
 ) {
 	addr := fmt.Sprintf("%s/boards/%s/columns/%s", a.BaseURI, boardID, columnID)
 
-	req := &ColumnInput{
-		Name:     name,
-		Position: position,
-	}
-	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(req), nil)
+	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(columnInput), nil)
 	if err != nil {
 		return
 	}
 
-	c = &Column{}
-	err = json.Unmarshal(resp, &c)
+	col = &Column{}
+	err = json.Unmarshal(resp, &col)
 
 	return
 }

@@ -97,7 +97,12 @@ func (a *Glo) GetBoards(
 
 // GetBoard Get a Board by ID
 // https://gloapi.gitkraken.com/v1/docs/#/Boards/get_boards__board_id_
-func (a *Glo) GetBoard(boardID string) (board *Board, err error) {
+func (a *Glo) GetBoard(
+	boardID string,
+) (
+	board *Board,
+	err error,
+) {
 	addr := fmt.Sprintf("%s/boards/%s", a.BaseURI, boardID)
 
 	q := utils.AddFields(boardFields)

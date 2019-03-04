@@ -91,7 +91,7 @@ func (a *Glo) GetComments(
 func (a *Glo) CreateComment(
 	boardID string,
 	cardID string,
-	commentInput *Comment,
+	commentInput *CommentInput,
 ) (
 	comment *Comment,
 	err error,
@@ -105,6 +105,7 @@ func (a *Glo) CreateComment(
 
 	comment = &Comment{}
 	err = json.Unmarshal(resp, &comment)
+
 	return
 }
 

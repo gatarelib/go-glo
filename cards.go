@@ -54,12 +54,10 @@ type CardsInput struct {
 	Description struct {
 		Text string `json:"text"`
 	} `json:"description"`
-	ColumnID  string         `json:"column_id"`
-	Assignees []*PartialUser `json:"assignees"`
-	Labels    []struct {
-		ID string `json:"id"`
-	}
-	DueDate string `json:"due_date"`
+	ColumnID  string          `json:"column_id"`
+	Assignees []*PartialUser  `json:"assignees"`
+	Labels    []*PartialLabel `json:"labels"`
+	DueDate   string          `json:"due_date"`
 }
 
 var cardFields = []string{
@@ -112,7 +110,7 @@ func (a *Glo) GetCards(
 		return
 	}
 
-	err = json.Unmarshal(resp, cardsResp.Cards)
+	err = json.Unmarshal(resp, &cardsResp.Cards)
 	if err != nil {
 		return
 	}
