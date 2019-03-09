@@ -17,10 +17,16 @@ type Label struct {
 	CreatedBy   *PartialUser `json:"created_by"`
 }
 
+// MinimizedDescription minimized description
+// data for input purposes
+type MinimizedDescription struct {
+	Text string `json:"text"`
+}
+
 // PartialLabel minimized Label data
 type PartialLabel struct {
 	ID   string `json:"id"`
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 // PartialUser minimized User information

@@ -27,7 +27,11 @@ type Board struct {
 type BoardMember struct {
 	ID       string `json:"id"`
 	Role     string `json:"role"`
-	Username string `json:"username"`
+	Username string `json:"username,omitempty"`
+}
+
+type BoardInput struct {
+	Name string `json:"name"`
 }
 
 // BoardsResp contains a list of boards and
@@ -47,6 +51,51 @@ var boardFields = []string{
 	"labels",
 	"members",
 	"name",
+}
+
+// CreateBoard Creates a Board
+// https://gloapi.gitkraken.com/v1/docs/#/Boards/post_boards
+func (a *Glo) CreateBoard(
+	input *BoardInput,
+) (
+	board *Board,
+	err error,
+) {
+
+	addr := fmt.Sprintf("%s/boards", a.BaseURI)
+
+	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(input), nil)
+	if err != nil {
+		return
+	}
+
+	board = &Board{}
+	err = json.Unmarshal(resp, &board)
+
+	return
+}
+
+// EditBoard Edits a Board
+// https://gloapi.gitkraken.com/v1/docs/#/Boards/post_boards__board_id_
+func (a *Glo) EditBoard(
+	boardID string,
+	input *BoardInput,
+) (
+	board *Board,
+	err error,
+) {
+
+	addr := fmt.Sprintf("%s/boards/%s", a.BaseURI, boardID)
+
+	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(input), nil)
+	if err != nil {
+		return
+	}
+
+	board = &Board{}
+	err = json.Unmarshal(resp, &board)
+
+	return
 }
 
 // GetBoards Get a list of Boards

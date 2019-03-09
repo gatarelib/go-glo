@@ -49,15 +49,13 @@ type CardsResp struct {
 // CardsInput contains information used
 // to create or edit a card
 type CardsInput struct {
-	Name        string `json:"name"`
-	Position    int    `json:"position"`
-	Description struct {
-		Text string `json:"text"`
-	} `json:"description"`
-	ColumnID  string          `json:"column_id"`
-	Assignees []*PartialUser  `json:"assignees"`
-	Labels    []*PartialLabel `json:"labels"`
-	DueDate   string          `json:"due_date"`
+	Name        string                `json:"name"`
+	Position    int                   `json:"position"`
+	Description *MinimizedDescription `json:"description"`
+	ColumnID    string                `json:"column_id"`
+	Assignees   []*PartialUser        `json:"assignees"`
+	Labels      []*PartialLabel       `json:"labels"`
+	DueDate     string                `json:"due_date"`
 }
 
 var cardFields = []string{
