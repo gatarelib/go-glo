@@ -23,6 +23,9 @@
 
 **Boards**
 
+- [x] Create Board
+- [x] Edit Board
+- [x] Delete Board
 - [x] Get Boards
 - [x] Get Boards by ID
 

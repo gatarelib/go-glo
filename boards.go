@@ -30,6 +30,8 @@ type BoardMember struct {
 	Username string `json:"username,omitempty"`
 }
 
+// BoardInput contains information used
+// to create or edit a Board
 type BoardInput struct {
 	Name string `json:"name"`
 }
@@ -61,7 +63,6 @@ func (a *Glo) CreateBoard(
 	board *Board,
 	err error,
 ) {
-
 	addr := fmt.Sprintf("%s/boards", a.BaseURI)
 
 	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(input), nil)
@@ -84,7 +85,6 @@ func (a *Glo) EditBoard(
 	board *Board,
 	err error,
 ) {
-
 	addr := fmt.Sprintf("%s/boards/%s", a.BaseURI, boardID)
 
 	resp, _, err := a.jsonReq(http.MethodPost, addr, utils.ToRawMessage(input), nil)
@@ -109,7 +109,6 @@ func (a *Glo) GetBoards(
 	boardsResp *BoardsResp,
 	err error,
 ) {
-
 	addr := fmt.Sprintf("%s/boards", a.BaseURI)
 
 	q := utils.AddFields(boardFields)
@@ -163,6 +162,20 @@ func (a *Glo) GetBoard(
 
 	board = &Board{}
 	err = json.Unmarshal(resp, &board)
+
+	return
+}
+
+// DeleteBoard Deletes a Board
+// https://gloapi.gitkraken.com/v1/docs/#/Boards/delete_boards__board_id_
+func (a *Glo) DeleteBoard(
+	boardID string,
+) (
+	err error,
+) {
+	addr := fmt.Sprintf("%s/boards/%s", a.BaseURI, boardID)
+
+	_, _, err = a.jsonReq(http.MethodDelete, addr, nil, nil)
 
 	return
 }
